@@ -2,7 +2,6 @@
 package report
 
 import (
-	"reflect"
 	"sync"
 
 	"github.com/deliveranceTechSolutions/erp/business/data/store/user"
@@ -28,10 +27,10 @@ func NewCore(log *zap.SugaredLogger, db *sqlx.DB) Core {
 
 // Interface being implemented in chart.go
 //
-// type report interface {
-// 	LoadData()
-// 	CanHaveView() bool
-// }
+type report interface {
+	LoadData()
+	CanHaveView() bool
+}
 
 // Dashboard creates a map which stores new charts
 type Dashboard struct {
@@ -49,11 +48,13 @@ func generateDashboard() Dashboard {
 }
 
 // CreateNew is a chart constructor
-func (d *Dashboard) CreateNew(name string, chartType interface{}) Chart {
+func (d *Dashboard) CreateNew(name string, chartType collection) Chart {
 	d.mu.Lock()
 	defer d.mu.Unlock()
 	
-	d.charts[name] = selectChart(chartType)
+	chart := Chart{}
+
+	d.charts[name] = selectChart(chart)
 
 	return Chart{}
 }
@@ -73,15 +74,16 @@ type collection interface {
 	BarChart 			|
 	PieChart 			|
 	ScatterXYChart 		|
-	BubbleChart 		|
-	StockChart 			|
-	SurfaceChart 		|
-	RadarChart 			|
-	TreemapChart 		|
-	SunburstChart 		|
-	BoxandWhiskerChart 	|
-	WaterfallChart 		|
-	FunnelChart 		|
-	ComboChart 			|
-	MapChart
+	BubbleChart 		
 }
+	// StockChart 			|
+	// SurfaceChart 		|
+	// RadarChart 			|
+	// TreemapChart 		|
+	// SunburstChart 		|
+	// BoxandWhiskerChart 	|
+	// WaterfallChart 		|
+	// FunnelChart 		|
+	// ComboChart 			|
+	// MapChart
+// }

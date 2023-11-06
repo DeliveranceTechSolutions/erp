@@ -142,15 +142,15 @@ type BubbleChart struct {
 	Chart
 }
 
-func (bc *ScatterXYChart) LoadData() error {
+func (bc *BubbleChart) LoadData() error {
 	databaseData := []int{}
-	sc.Data = databaseData
+	bc.Data = databaseData
 
 	return nil
 }
 
-func (sc *ScatterXYChart) Render() error {
-	if !sc.IsLoaded {
+func (bc *BubbleChart) Render() error {
+	if !bc.IsLoaded {
 		return errors.New("ScatterXYChart render error")
 	}
 
